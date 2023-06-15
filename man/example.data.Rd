@@ -9,7 +9,7 @@ Example data
 }
 \usage{data("example.data")}
 \format{
- A list with 6 elements representing 2000 observations from a treatment group and 1500 observations from a control group:
+ A list with 8 elements representing 2000 observations from a treatment group and 1500 observations from a control group:
   \describe{
     \item{\code{s1}}{the surrogate marker in the treatment group}
     \item{\code{s0}}{the surrogate marker in the control group}
