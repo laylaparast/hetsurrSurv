@@ -240,45 +240,38 @@ test.multiplet <- function(t.mult, xone, xzero, deltaone, deltazero, sone, szero
 		rrr = approx(thegrid, thedelta, xout = w.want, method = "linear")
 		return(rrr$y)
 		}	
-	big.delta = rep(0, length(w.grd))	
-	big.delta.s= rep(0, length(w.grd))
+	big.R.d = rep(0, length(w.grd))
 	for(kk in 1:length(t.mult)){
 		R.f = R.surv.s.w(xone=xone, xzero=xzero, deltaone=deltaone, deltazero=deltazero, sone=sone, szero=szero, wone=wone, wzero=wzero, w.grd=w.grd, myt=t.mult[kk], landmark=landmark)
-		big.delta = big.delta + R.f$delta.w
-		big.delta.s = big.delta.s + R.f$delta.s.w
+		r.term = 1-integrate(my.delta, thedelta = R.f$delta.s.w, min(w.grd), max(w.grd))$value/integrate(my.delta, thedelta = R.f$delta.w, min(w.grd), max(w.grd))$value
+		r.d = R.f$R.s.w - r.term
+		big.R.d = big.R.d + r.d
 	}
-	R.bigt = 1-(big.delta.s)/(big.delta)
-	r.term = 1-integrate(my.delta, thedelta = big.delta.s, min(w.grd), max(w.grd))$value/integrate(my.delta, thedelta = big.delta, min(w.grd), max(w.grd))$value
-	r.d.bigt = R.bigt  - r.term
-	
+		
 	#BOOTSTRAP
 	n1 = length(xone)
 	n0=length(xzero)
 	b.num = 300
-	delta.bigt.boot = matrix(0,nrow = b.num, ncol=length(w.grd))
-	delta.s.bigt.boot = matrix(0,nrow = b.num, ncol=length(w.grd))
-	d.bigt.boot = matrix(nrow = b.num, ncol=length(w.grd))
+	d.bigt.boot = matrix(0,nrow = b.num, ncol=length(w.grd))
 	for(uuu in 1:b.num) {
 		ind.boot.1 = sample(1:n1, n1, replace = T)
 		ind.boot.0 = sample(1:n0, n0, replace = T)
 		for(qq in 1:length(t.mult)) {
 			t.use=t.mult[qq]
 			R.b = R.surv.s.w(xone=xone[ind.boot.1], xzero=xzero[ind.boot.0], deltaone=deltaone[ind.boot.1], deltazero=deltazero[ind.boot.0], sone=sone[ind.boot.1], szero=szero[ind.boot.0], wone=wone[ind.boot.1], wzero=wzero[ind.boot.0], w.grd=w.grd, myt=t.use, landmark=landmark, extrapolate = T)
-			delta.bigt.boot[uuu,] = delta.bigt.boot[uuu,] + R.b$delta.w
-			delta.s.bigt.boot[uuu,] = delta.s.bigt.boot[uuu,] + R.b$delta.s.w
-		}
-		R.bigt.b = 1-delta.s.bigt.boot[uuu,]/delta.bigt.boot[uuu,]
-		tryCatch({
-		r.bigt.term.b = 1-integrate(my.delta, thedelta = delta.s.bigt.boot[uuu,], min(w.grd), max(w.grd))$value/integrate(my.delta, thedelta = delta.bigt.boot[uuu,], min(w.grd), max(w.grd))$value
-		r.d.b = R.bigt.b - r.bigt.term.b
-		d.bigt.boot[uuu,] = r.d.b
+			tryCatch({
+			r.term.b = 1-integrate(my.delta, thedelta = R.b$delta.s.w, min(w.grd), max(w.grd))$value/integrate(my.delta, thedelta = R.b$delta.w, min(w.grd), max(w.grd))$value
+			r.d.b = R.b$R.s.w - r.term.b
+			d.bigt.boot[uuu,] = d.bigt.boot[uuu,] + r.d.b
 		}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-	}	
+		}
+	}
 	d.bigt.boot = d.bigt.boot[!is.na(d.bigt.boot[,1]),]
 	b.num = sum(!is.na(d.bigt.boot[,1]))	
 	sd.d.bigt.b = apply(d.bigt.boot, 2, mad)
 
-	tstar = abs(r.d.bigt/sd.d.bigt.b)
+
+	tstar = abs(big.R.d/sd.d.bigt.b)
 	t.est = max(tstar)
 	
 	aa = covRob(d.bigt.boot, corr=TRUE,estim="mcd")$cov

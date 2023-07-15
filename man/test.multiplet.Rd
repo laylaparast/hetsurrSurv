@@ -61,7 +61,10 @@ Layla Parast
 	names(example.data)
 	#computationally intensive
 	\donttest{
-	test.multiplet(t.mult = c(1,1.25,1.5), xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1, deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0), wone=log(example.data$w1), wzero=log(example.data$w0), w.grd=log(seq(0.1,0.9, length=25)), myt=1, landmark=0.5)
+	test.multiplet(t.mult = c(1,1.25,1.5), xone=example.data$x1, xzero=example.data$x0, 
+	deltaone=example.data$d1, deltazero=example.data$d0, sone=log(example.data$s1), 
+	szero=log(example.data$s0), wone=log(example.data$w1), wzero=log(example.data$w0),
+	 w.grd=log(seq(0.1,0.9, length=25)), landmark=0.5)
 	}
 }
 
