@@ -1,7 +1,0 @@
-importFrom(stats, bw.nrd, sd, integrate, approx, mad, pchisq, var)
-importFrom(MASS, mvrnorm)
-importFrom(groc, covRob)
-importFrom(Rsurrogate, Kern.FUN, helper.si, delta.surv.estimate, delta.s.surv.estimate)
-export("pred.smooth.surv.w",
-       "pred.smooth.surv.w.s", "R.main.estimate",
-       "R.surv.s.w", "test.multiplet")
