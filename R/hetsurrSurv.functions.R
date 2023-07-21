@@ -234,8 +234,8 @@ R.main.estimate <- function(xone, xzero, deltaone, deltazero, sone, szero, wone,
 	return(results.list)
 }
 
-test.multiplet <- function(t.mult, xone, xzero, deltaone, deltazero, sone, szero, wone, wzero, w.grd, landmark, extrapolate = T,  h.0=NULL,h.1=NULL, h.w=NULL, h.s=NULL,h.w.1=NULL){
-
+test.multiplet <- function(t.mult, xone, xzero, deltaone, deltazero, sone, szero, wone, wzero, w.grd, landmark, extrapolate = T,  h.0=NULL,h.1=NULL, h.w=NULL, h.s=NULL,h.w.1=NULL, type = "cont"){
+	if(type == "cont") {
 	my.delta = function(w.want, thegrid = w.grd, thedelta){
 		rrr = approx(thegrid, thedelta, xout = w.want, method = "linear")
 		return(rrr$y)
@@ -283,5 +283,55 @@ test.multiplet <- function(t.mult, xone, xzero, deltaone, deltazero, sone, szero
 	max.this = apply(abs(ww), 1, max)
 	pval.mult.con = mean(max.this >= t.est)
 
-return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))
+return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
+	if(type == "discrete"){
+			stacked.r = c()
+	for(kk in 1:length(t.mult)){
+		delta.diff.w = vector(length = length(w.grd))
+		delta.s.diff.w = vector(length = length(w.grd))
+    	for(jj in 1:length(w.grd)) {
+		delta.diff.w[jj] = delta.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], t = t.mult[kk])$delta
+		delta.s.diff.w[jj] = delta.s.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], sone[wone==w.grd[jj]], szero[wzero==w.grd[jj]], landmark=landmark, t = t.mult[kk])
+    	}		
+		R.s.w = 1-delta.s.diff.w/delta.diff.w 
+	stacked.r = c(stacked.r, R.s.w)
+	}
+		
+	#BOOTSTRAP
+	n1 = length(xone)
+	n0=length(xzero)
+	b.num = 300
+	r.bigt.boot = matrix(0,nrow = b.num, ncol=length(w.grd)*length(t.mult))
+	for(uuu in 1:b.num) {
+		ind.boot.1 = sample(1:n1, n1, replace = T)
+		ind.boot.0 = sample(1:n0, n0, replace = T)
+		xone.b = xone[ind.boot.1];deltaone.b = deltaone[ind.boot.1]; sone.b = sone[ind.boot.1]; wone.b = wone[ind.boot.1]
+		xzero.b = xzero[ind.boot.0];deltazero.b = deltazero[ind.boot.0]; szero.b = szero[ind.boot.0]; wzero.b = wzero[ind.boot.0]
+		stacked.r.b=c()
+		for(qq in 1:length(t.mult)) {
+			t.use=t.mult[qq]
+			delta.diff.w.b = vector(length = length(w.grd))
+			delta.s.diff.w.b = vector(length = length(w.grd))
+    	for(jj in 1:length(w.grd)) {
+		delta.diff.w.b[jj] = delta.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], t = t.use)$delta
+		delta.s.diff.w.b[jj] = delta.s.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], sone.b[wone.b==w.grd[jj]], szero.b[wzero.b==w.grd[jj]], landmark=landmark, t = t.use)
+    	}		
+		stacked.r.b = c(stacked.r.b,1-delta.s.diff.w.b/delta.diff.w.b) 
+		}
+		r.bigt.boot[uuu,] = stacked.r.b
+		print(uuu)
+		}
+		#testing
+		#make contrast matrix
+			cont.onet = diag(1,nrow = length(w.grd)-1, ncol = length(w.grd)) + cbind(rep(0,length(w.grd)-1), diag(-1,nrow = length(w.grd)-1, ncol = length(w.grd)-1))
+			yy = diag(1, nrow = length(t.mult))
+			cont = yy %x% cont.onet
+			vec.R = stacked.r
+			delta.test = cont %*% as.matrix(vec.R)
+			sand = solve(cont %*% var(r.bigt.boot) %*% t(cont))
+			G = t(delta.test) %*% sand %*% delta.test
+			test.stat = as.numeric(G)
+			pval.mult = as.numeric(1-pchisq(G, (length(t.mult)-1)* (length(w.grd)-1)))	
+return(list("pval.multi" = pval.mult, "pval.con.multi" = NA))
+	}
 }

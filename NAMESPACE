@@ -1,4 +1,4 @@
-importFrom(stats, bw.nrd, sd, integrate, approx, mad, pchisq)
+importFrom(stats, bw.nrd, sd, integrate, approx, mad, pchisq, var)
 importFrom(MASS, mvrnorm)
 importFrom(groc, covRob)
 importFrom(Rsurrogate, Kern.FUN, helper.si, delta.surv.estimate, delta.s.surv.estimate)

@@ -80,6 +80,10 @@ Layla Parast
 	deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0), 
 	wone=log(example.data$w1), wzero=log(example.data$w0), 
 	w.grd=log(seq(0.1,0.9, length=25)), myt=1, landmark=0.5)
+	R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1, 
+	deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0), 
+	wone=example.data$w1_cat, wzero=example.data$w0_cat, 
+	myt=1, landmark=0.5,type = "discrete", w.grd = c(1,2,3,4))
 	#computationally intensive
 	\donttest{
 	R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1,

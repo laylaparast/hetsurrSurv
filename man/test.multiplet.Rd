@@ -7,7 +7,7 @@ Tests for heterogeneity across multiple timepoints}
 \usage{
 test.multiplet(t.mult, xone, xzero, deltaone, deltazero, sone, szero, wone, 
 wzero, w.grd, landmark, extrapolate = T, h.0 = NULL, h.1 = NULL, h.w = NULL, 
-h.s = NULL, h.w.1 = NULL)
+h.s = NULL, h.w.1 = NULL,type = "cont")
 }
 \arguments{
   \item{t.mult}{
@@ -44,11 +44,13 @@ bandwidth}
 bandwidth}
   \item{h.w.1}{
 bandwidth}
+\item{type}{
+options are "cont" or "discrete"; type of baseline covariate, default is "cont"}
 }
 \value{
 A list is returned:
 \item{pval.multi}{p-value for omnibus test}
-\item{pval.con.multi}{p-value for conservative omnibus test}
+\item{pval.con.multi}{p-value for conservative omnibus test (only applicable for continuous W)}
 }
 \references{
 Parast, L., Tian L, Cai, T. (2023) "Assessing Heterogeneity in Surrogacy Using Censored Data." Under Review.
