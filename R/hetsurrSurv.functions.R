@@ -205,7 +205,7 @@ R.main.estimate <- function(xone, xzero, deltaone, deltazero, sone, szero, wone,
 					delta.s.diff.w.boot = vector(length = length(w.grd))
     				for(jj in 1:length(w.grd)) {
 						delta.diff.w.boot[jj] = delta.surv.estimate(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], t = myt)$delta
-						delta.s.diff.w.boot[jj] = delta.s.surv.estimate(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], s1.b[u1.b==w.grd[jj]], s0.b[u0.b==w.grd[jj]], landmark=landmark, t = myt)
+						delta.s.diff.w.boot[jj] = delta.s.surv.estimate(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], s1.b[u1.b==w.grd[jj]], s0.b[u0.b==w.grd[jj]], landmark=landmark, t = myt, extrapolate = TRUE)
     				}
 					boot.mat[kk,1:num.w] = delta.diff.w.boot
  					boot.mat[kk,(num.w+1):(num.w+num.w)] = delta.s.diff.w.boot
@@ -314,12 +314,12 @@ return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
 			delta.s.diff.w.b = vector(length = length(w.grd))
     	for(jj in 1:length(w.grd)) {
 		delta.diff.w.b[jj] = delta.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], t = t.use)$delta
-		delta.s.diff.w.b[jj] = delta.s.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], sone.b[wone.b==w.grd[jj]], szero.b[wzero.b==w.grd[jj]], landmark=landmark, t = t.use)
+		delta.s.diff.w.b[jj] = delta.s.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], sone.b[wone.b==w.grd[jj]], szero.b[wzero.b==w.grd[jj]], landmark=landmark, t = t.use, extrapolate = TRUE)
     	}		
 		stacked.r.b = c(stacked.r.b,1-delta.s.diff.w.b/delta.diff.w.b) 
 		}
 		r.bigt.boot[uuu,] = stacked.r.b
-		print(uuu)
+		#print(uuu)
 		}
 		#testing
 		#make contrast matrix
