@@ -177,7 +177,7 @@ R.main.estimate <- function(xone, xzero, deltaone, deltazero, sone, szero, wone,
 		delta.s.diff.w = vector(length = length(w.grd))
     	for(jj in 1:length(w.grd)) {
 		delta.diff.w[jj] = delta.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], t = myt)$delta
-		delta.s.diff.w[jj] = delta.s.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], sone[wone==w.grd[jj]], szero[wzero==w.grd[jj]], landmark=landmark, t = myt)
+		delta.s.diff.w[jj] = delta.s.surv.estimate.new(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], sone[wone==w.grd[jj]], szero[wzero==w.grd[jj]], landmark=landmark, t = myt)
     	}
 		
 		R.s.w = 1-delta.s.diff.w/delta.diff.w 	
@@ -205,7 +205,7 @@ R.main.estimate <- function(xone, xzero, deltaone, deltazero, sone, szero, wone,
 					delta.s.diff.w.boot = vector(length = length(w.grd))
     				for(jj in 1:length(w.grd)) {
 						delta.diff.w.boot[jj] = delta.surv.estimate(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], t = myt)$delta
-						delta.s.diff.w.boot[jj] = delta.s.surv.estimate(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], s1.b[u1.b==w.grd[jj]], s0.b[u0.b==w.grd[jj]], landmark=landmark, t = myt, extrapolate = TRUE)
+						delta.s.diff.w.boot[jj] = delta.s.surv.estimate.new(x1.b[u1.b==w.grd[jj]], x0.b[u0.b==w.grd[jj]], delta1.b[u1.b==w.grd[jj]], delta0.b[u0.b==w.grd[jj]], s1.b[u1.b==w.grd[jj]], s0.b[u0.b==w.grd[jj]], landmark=landmark, t = myt, extrapolate = TRUE)
     				}
 					boot.mat[kk,1:num.w] = delta.diff.w.boot
  					boot.mat[kk,(num.w+1):(num.w+num.w)] = delta.s.diff.w.boot
@@ -291,7 +291,7 @@ return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
 		delta.s.diff.w = vector(length = length(w.grd))
     	for(jj in 1:length(w.grd)) {
 		delta.diff.w[jj] = delta.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], t = t.mult[kk])$delta
-		delta.s.diff.w[jj] = delta.s.surv.estimate(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], sone[wone==w.grd[jj]], szero[wzero==w.grd[jj]], landmark=landmark, t = t.mult[kk])
+		delta.s.diff.w[jj] = delta.s.surv.estimate.new(xone[wone==w.grd[jj]], xzero[wzero==w.grd[jj]], deltaone[wone==w.grd[jj]], deltazero[wzero==w.grd[jj]], sone[wone==w.grd[jj]], szero[wzero==w.grd[jj]], landmark=landmark, t = t.mult[kk])
     	}		
 		R.s.w = 1-delta.s.diff.w/delta.diff.w 
 	stacked.r = c(stacked.r, R.s.w)
@@ -314,7 +314,7 @@ return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
 			delta.s.diff.w.b = vector(length = length(w.grd))
     	for(jj in 1:length(w.grd)) {
 		delta.diff.w.b[jj] = delta.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], t = t.use)$delta
-		delta.s.diff.w.b[jj] = delta.s.surv.estimate(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], sone.b[wone.b==w.grd[jj]], szero.b[wzero.b==w.grd[jj]], landmark=landmark, t = t.use, extrapolate = TRUE)
+		delta.s.diff.w.b[jj] = delta.s.surv.estimate.new(xone.b[wone.b==w.grd[jj]], xzero.b[wzero.b==w.grd[jj]], deltaone.b[wone.b==w.grd[jj]], deltazero.b[wzero.b==w.grd[jj]], sone.b[wone.b==w.grd[jj]], szero.b[wzero.b==w.grd[jj]], landmark=landmark, t = t.use, extrapolate = TRUE)
     	}		
 		stacked.r.b = c(stacked.r.b,1-delta.s.diff.w.b/delta.diff.w.b) 
 		}
@@ -334,4 +334,17 @@ return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
 			pval.mult = as.numeric(1-pchisq(G, (length(t.mult)-1)* (length(w.grd)-1)))	
 return(list("pval.multi" = pval.mult, "pval.con.multi" = NA))
 	}
+}
+
+delta.s.surv.estimate.new = function(xone,xzero, deltaone, deltazero, sone, szero, t, weight.perturb = NULL, landmark, extrapolate = FALSE, transform = FALSE, approx = T, warn.te = FALSE, warn.support = FALSE) {
+	
+	if(is.null(weight.perturb)) {weight = rep(1,length(xone)+length(xzero))}
+	if(!is.null(weight.perturb)) {weight = weight.perturb}	
+	weight.group1 = weight[1:length(xone)]
+	weight.group0 = weight[(1+length(xone)):(length(xone)+length(xzero))]
+	mu.1.s0 = pred.smooth.surv(xone.f=xone[xone>landmark], deltaone.f = deltaone[xone>landmark], sone.f=sone[xone>landmark], szero.one = szero[xzero>landmark], myt=t, weight.pred = weight.group1[xone>landmark], extrapolate = extrapolate, transform = transform, warn.support = warn.support)
+	censor0.t = censor.weight(xzero, deltazero, t, weight = weight.group0, approx=approx)
+	censor0.landmark = censor.weight(xzero, deltazero, landmark, weight = weight.group0, approx=approx)
+	delta.s = sum(weight.group0[xzero>landmark]*mu.1.s0)/sum(weight.group0*censor0.landmark) - sum(weight.group0*1*(xzero>t))/sum(weight.group0*censor0.t)
+	return(delta.s)
 }
