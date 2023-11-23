@@ -331,7 +331,7 @@ return(list("pval.multi" = pval.mult, "pval.con.multi" = pval.mult.con))}
 			sand = solve(cont %*% var(r.bigt.boot) %*% t(cont))
 			G = t(delta.test) %*% sand %*% delta.test
 			test.stat = as.numeric(G)
-			pval.mult = as.numeric(1-pchisq(G, (length(t.mult)-1)* (length(w.grd)-1)))	
+			pval.mult = as.numeric(1-pchisq(G, (length(t.mult))* (length(w.grd)-1)))	
 return(list("pval.multi" = pval.mult, "pval.con.multi" = NA))
 	}
 }
