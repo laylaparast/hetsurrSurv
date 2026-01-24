@@ -1,0 +1,94 @@
+---
+title: "Tutorial for main functions in the hetsurrSurv package"
+output:
+  html_document:
+    self_contained: true
+---
+
+```{r global_options, echo=FALSE}
+knitr::opts_chunk$set(fig.width=7, warning=FALSE, tidy=TRUE, tidy.opts=list(width.cutoff=60))
+```
+
+If you are viewing the html version of this tutorial, you can find the R markdown file here: <https://github.com/laylaparast/hetsurrSurv>. It is the file called hetsurrSurv_tutorial.Rmd. In this tutorial, we will go through an example using the main functions in the **hetsurrSurv** package. First, install the package from CRAN and load it. 
+
+```{r results = "hide", message=FALSE}
+#install.packages("hetsurrSurv")
+library(hetsurrSurv)
+```
+
+This package provides functions to assess and test for heterogeneity in the utility of a surrogate marker with respect to a baseline covariate using censored (survival data), and to test for heterogeneity across multiple time points. Details are described in Parast, L., Tian, L & Cai, T. (2024). Assessing Heterogeneity in Surrogacy Using Censored Data. Statistics in Medicine, 43(17): 3184-3209, <https://doi.org/10.1002/sim.10122>. 
+
+## Assess heterogeneity
+
+The main function is `R.main.estimate` which estimates the proportion of treatment effect explained by the surrogate
+marker as a function of a baseline covariate, when the primary outcome is a censored time-to-event outcome. This function expects the following: (1) `sone`, the surrogate marker in the treated group; (2) `szero`, the surrogate marker in the control group; (3) `wone`, the baseline covariate in the treated group; (4) `wzero`, the baseline covariate in the control group; (5) `xone`, the observed event time in the treated group; (6) `xzero`, the observed event time in the control group; (7) `deltaone`, the event indicator in the treated group; (8) `deltazero`, the event indicator in the control group; (9) `w.grd`, the grid for w where estimation will be provided; (10) `myt`, the long-term or end time of interest; (11) `landmark`, the landmark time. 
+
+Let's use the example data provided in the package, `example.data`: 
+
+```{r}
+data(example.data)
+names(example.data)
+```
+
+Now let's use the main function to assess heterogeneity in the utility of the surrogate marker with respect to the continuous baseline covariate in this dataset. Here, we have chosen to use a log transformation for both the surrogate and the baseline covariate.
+
+```{r}
+out = R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1,
+deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0),
+wone=log(example.data$w1), wzero=log(example.data$w0),
+w.grd=log(seq(0.1,0.9, length=25)), myt=1, landmark=0.5)
+out
+```
+
+First, `w.values` is the grid of w that was given in `w.grd`; `R.s.w` is the proportion of the treatment effect on the censored primary outcome  at time `myt` explained by the treatment effect on the surrogate (and any outcome information) at the landmark time, for each w value in `w values`; `delta.w` and `delta.s.w` are the treatment effect and residual treatment effect, respectively, at each w value in `w values`.
+
+Let's use the same function, but now examine heterogeneity with respect to the discrete baseline covariate in the example dataset, using `type = "discrete"`:
+
+```{r}
+R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1,
+deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0),
+wone=example.data$w1_cat, wzero=example.data$w0_cat,
+myt=1, landmark=0.5,type = "discrete", w.grd = c(1,2,3,4))
+
+```
+For either a continuous or discrete baseline covariate, we can also ask for standard error estimates using `var=TRUE`:
+
+```{r}
+R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1,
+deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0),
+wone=example.data$w1_cat, wzero=example.data$w0_cat,
+myt=1, landmark=0.5,type = "discrete", w.grd = c(1,2,3,4),
+var=TRUE)
+
+```
+
+## Test for heterogeneity
+
+Now, we illustrate how to test for heterogeneity, which simply involves adding `test=TRUE`, shown below. The testing procedure involves resampling and can be computationally intensive. 
+
+```{r}
+R.main.estimate(xone=example.data$x1, xzero=example.data$x0, deltaone=example.data$d1,
+deltazero=example.data$d0, sone=log(example.data$s1), szero=log(example.data$s0),
+wone=log(example.data$w1), wzero=log(example.data$w0),
+w.grd=log(seq(0.1,0.9, length=25)), myt=1, landmark=0.5, test=TRUE)
+```
+
+Notice that the resulting output includes standard error estimates, as well as the p-values for two tests of heterogeneity: the omnibus test, and the conservative omnibus test. 
+
+## Test for heterogeneity across multiple times
+
+Lastly, the second main function in this package is `test.multiplet` which test for heterogeneity across multiple time points. The arguments are similar, except that the first argument is the vector of time points for testing:
+
+```{r}
+test.multiplet(t.mult = c(1,1.25,1.5), xone=example.data$x1, xzero=example.data$x0,
+deltaone=example.data$d1, deltazero=example.data$d0, sone=log(example.data$s1),
+szero=log(example.data$s0), wone=log(example.data$w1), wzero=log(example.data$w0),
+w.grd=log(seq(0.1,0.9, length=25)), landmark=0.5)
+```
+
+Similar to the test at a single time point, this provides a p-value for two tests of heterogeneity: an omnibus test and a conservative omnibus test. 
+
+
+That's all for now!
+
+---------
