@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial for main functions in hetsurrSurv package</title>
+<title>Tutorial for main functions in the hetsurrSurv package</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,8 +348,8 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Tutorial for main functions in hetsurrSurv
-package</h1>
+<h1 class="title toc-ignore">Tutorial for main functions in the
+hetsurrSurv package</h1>
 
 </div>
 
@@ -376,7 +376,7 @@ function of a baseline covariate, when the primary outcome is a censored
 time-to-event outcome. This function expects the following: (1)
 <code>sone</code>, the surrogate marker in the treated group; (2)
 <code>szero</code>, the surrogate marker in the control group; (3)
-<code>wone</code>, baseline covariate in the treated group; (4)
+<code>wone</code>, the baseline covariate in the treated group; (4)
 <code>wzero</code>, the baseline covariate in the control group; (5)
 <code>xone</code>, the observed event time in the treated group; (6)
 <code>xzero</code>, the observed event time in the control group; (7)
@@ -475,13 +475,13 @@ ask for standard error estimates using <code>var=TRUE</code>:</p>
 ## [1] 0.02593247 0.09365258 0.10162311 0.02481430
 ## 
 ## $sd.R
-## [1] 0.14023665 0.04981106 0.06494513 0.08852758
+## [1] 0.13792180 0.05252448 0.05904614 0.08168399
 ## 
 ## $sd.delta
-## [1] 0.03707156 0.03443922 0.02798424 0.02167848
+## [1] 0.03828459 0.03331468 0.02817830 0.02045326
 ## 
 ## $sd.delta.s
-## [1] 0.02425771 0.02072617 0.02030339 0.01187390</code></pre>
+## [1] 0.02415066 0.02117761 0.02010736 0.01134339</code></pre>
 </div>
 <div id="test-for-heterogeneity" class="section level2">
 <h2>Test for heterogeneity</h2>
@@ -521,31 +521,31 @@ procedure involves resampling and can be computationally intensive.</p>
 ## [25] 0.031014791
 ## 
 ## $sd.R
-##  [1] 0.17077884 0.21297082 0.09484840 0.12747669 0.12592725 0.11173106
-##  [7] 0.08986085 0.06927524 0.07021662 0.06789741 0.06244484 0.05892176
-## [13] 0.05857685 0.06591814 0.06833537 0.05637166 0.06194065 0.06203988
-## [19] 0.06553929 0.06423430 0.06823150 0.07036700 0.08105955 0.08391443
-## [25] 0.09003257
+##  [1] 0.18690263 0.26187236 0.09853445 0.12594274 0.12778509 0.10008780
+##  [7] 0.09294034 0.07753720 0.07239439 0.06779981 0.06021188 0.04956650
+## [13] 0.05340761 0.05818255 0.06111289 0.06081416 0.07016996 0.06614124
+## [19] 0.06760219 0.06428512 0.05640092 0.05748836 0.06243770 0.06816229
+## [25] 0.07218023
 ## 
 ## $sd.delta
-##  [1] 0.08859619 0.07323306 0.06529527 0.07583320 0.07023269 0.05803231
-##  [7] 0.05096730 0.04290471 0.04539918 0.04761188 0.03432295 0.03754067
-## [13] 0.03959639 0.03643280 0.03617035 0.02957728 0.02630757 0.02605286
-## [19] 0.02278145 0.02162222 0.02108081 0.02190339 0.01974131 0.01870516
-## [25] 0.02009519
+##  [1] 0.09660089 0.07558202 0.07146250 0.07082984 0.07271787 0.05664731
+##  [7] 0.04973474 0.04515406 0.05230500 0.03956891 0.03671607 0.03584419
+## [13] 0.03200985 0.03279343 0.03079180 0.02876275 0.02576985 0.02417878
+## [19] 0.02266660 0.02301793 0.02289299 0.02102622 0.02088766 0.01982981
+## [25] 0.02071652
 ## 
 ## $sd.delta.s
-##  [1] 0.04931115 0.03311578 0.03613081 0.03502259 0.03727989 0.03287462
-##  [7] 0.02825542 0.02652803 0.02736804 0.02645212 0.02385755 0.02082433
-## [13] 0.02144438 0.02317725 0.02287140 0.01907599 0.01766603 0.01698222
-## [19] 0.01614632 0.01474764 0.01344563 0.01293650 0.01235343 0.01181197
-## [25] 0.01120493
+##  [1] 0.05318665 0.03801217 0.04018582 0.03445608 0.03576605 0.02940736
+##  [7] 0.03161651 0.02907470 0.03022388 0.02923469 0.02749647 0.01906103
+## [13] 0.01809884 0.02064762 0.02235507 0.02258381 0.01997845 0.01816237
+## [19] 0.01632291 0.01484825 0.01144314 0.01076791 0.01097924 0.01184710
+## [25] 0.01134020
 ## 
 ## $pval.omnibus
-## [1] 0.575
+## [1] 0.657
 ## 
 ## $pval.con.omnibus
-## [1] 0.86</code></pre>
+## [1] 0.913</code></pre>
 <p>Notice that the resulting output includes standard error estimates,
 as well as the p-values for two tests of heterogeneity: the omnibus
 test, and the conservative omnibus test.</p>
@@ -554,7 +554,7 @@ test, and the conservative omnibus test.</p>
 <h2>Test for heterogeneity across multiple times</h2>
 <p>Lastly, the second main function in this package is
 <code>test.multiplet</code> which test for heterogeneity across multiple
-time points. The arguments are similar, except that the first arguement
+time points. The arguments are similar, except that the first argument
 is the vector of time points for testing:</p>
 <pre class="r"><code>test.multiplet(t.mult = c(1, 1.25, 1.5), xone = example.data$x1,
     xzero = example.data$x0, deltaone = example.data$d1, deltazero = example.data$d0,
@@ -562,10 +562,10 @@ is the vector of time points for testing:</p>
     wone = log(example.data$w1), wzero = log(example.data$w0),
     w.grd = log(seq(0.1, 0.9, length = 25)), landmark = 0.5)</code></pre>
 <pre><code>## $pval.multi
-## [1] 0.461
+## [1] 0.393
 ## 
 ## $pval.con.multi
-## [1] 0.719</code></pre>
+## [1] 0.675</code></pre>
 <p>Similar to the test at a single time point, this provides a p-value
 for two tests of heterogeneity: an omnibus test and a conservative
 omnibus test.</p>
