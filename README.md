@@ -8,4 +8,4 @@
 
 More details on the method are available in Parast, L., Tian, L & Cai, T. (2024). Assessing Heterogeneity in Surrogacy Using Censored Data. Statistics in Medicine, 43(17): 3184-3209, [doi:10.1002/sim.10122](https://doi.org/10.1002/sim.10122). 
 
-Go here to view a tutorial for this package: [SurrogateRank Tutorial](https://htmlpreview.github.io/?https://github.com/laylaparast/hetsurrSurv/blob/main/hetsurrSurv_tutorial.html). 
+Go here to view a tutorial for this package: [hetsurrSurv Tutorial](https://htmlpreview.github.io/?https://github.com/laylaparast/hetsurrSurv/blob/main/hetsurrSurv_tutorial.html). We also have a Shiny app here: [hetsurrSurv Shiny App](https://parastlab.shinyapps.io/hetsurrSurvApp/).
