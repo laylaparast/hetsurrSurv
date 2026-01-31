@@ -475,13 +475,13 @@ ask for standard error estimates using <code>var=TRUE</code>:</p>
 ## [1] 0.02593247 0.09365258 0.10162311 0.02481430
 ## 
 ## $sd.R
-## [1] 0.13792180 0.05252448 0.05904614 0.08168399
+## [1] 0.13861278 0.05143358 0.05993861 0.08089607
 ## 
 ## $sd.delta
-## [1] 0.03828459 0.03331468 0.02817830 0.02045326
+## [1] 0.03593747 0.03398583 0.02565253 0.02056676
 ## 
 ## $sd.delta.s
-## [1] 0.02415066 0.02117761 0.02010736 0.01134339</code></pre>
+## [1] 0.02517292 0.02074281 0.01867016 0.01143664</code></pre>
 </div>
 <div id="test-for-heterogeneity" class="section level2">
 <h2>Test for heterogeneity</h2>
@@ -521,31 +521,31 @@ procedure involves resampling and can be computationally intensive.</p>
 ## [25] 0.031014791
 ## 
 ## $sd.R
-##  [1] 0.18690263 0.26187236 0.09853445 0.12594274 0.12778509 0.10008780
-##  [7] 0.09294034 0.07753720 0.07239439 0.06779981 0.06021188 0.04956650
-## [13] 0.05340761 0.05818255 0.06111289 0.06081416 0.07016996 0.06614124
-## [19] 0.06760219 0.06428512 0.05640092 0.05748836 0.06243770 0.06816229
-## [25] 0.07218023
+##  [1] 0.17059382 0.25333527 0.09568330 0.15058288 0.14673718 0.10776639
+##  [7] 0.08772335 0.06692865 0.06000520 0.06436296 0.06103063 0.05808420
+## [13] 0.05451944 0.06269859 0.06577649 0.05893455 0.05995549 0.06060850
+## [19] 0.06449074 0.06643847 0.06768580 0.07080700 0.07177885 0.07426292
+## [25] 0.08052307
 ## 
 ## $sd.delta
-##  [1] 0.09660089 0.07558202 0.07146250 0.07082984 0.07271787 0.05664731
-##  [7] 0.04973474 0.04515406 0.05230500 0.03956891 0.03671607 0.03584419
-## [13] 0.03200985 0.03279343 0.03079180 0.02876275 0.02576985 0.02417878
-## [19] 0.02266660 0.02301793 0.02289299 0.02102622 0.02088766 0.01982981
-## [25] 0.02071652
+##  [1] 0.09290464 0.08164442 0.07002373 0.06749535 0.06051385 0.05693572
+##  [7] 0.05246854 0.04174644 0.04730122 0.04264391 0.03951525 0.03564734
+## [13] 0.03204660 0.03539826 0.03014303 0.02657657 0.02278901 0.02127159
+## [19] 0.02182016 0.02075753 0.01995352 0.02006700 0.02075363 0.02198467
+## [25] 0.02045903
 ## 
 ## $sd.delta.s
-##  [1] 0.05318665 0.03801217 0.04018582 0.03445608 0.03576605 0.02940736
-##  [7] 0.03161651 0.02907470 0.03022388 0.02923469 0.02749647 0.01906103
-## [13] 0.01809884 0.02064762 0.02235507 0.02258381 0.01997845 0.01816237
-## [19] 0.01632291 0.01484825 0.01144314 0.01076791 0.01097924 0.01184710
-## [25] 0.01134020
+##  [1] 0.05036385 0.03777133 0.03947057 0.03881607 0.04113389 0.03234852
+##  [7] 0.02960897 0.02564481 0.02752911 0.02856091 0.02676619 0.02193383
+## [13] 0.02052747 0.02550683 0.02484070 0.02115125 0.01728917 0.01563293
+## [19] 0.01551977 0.01445180 0.01350994 0.01393628 0.01321382 0.01231537
+## [25] 0.01190875
 ## 
 ## $pval.omnibus
-## [1] 0.657
+## [1] 0.486
 ## 
 ## $pval.con.omnibus
-## [1] 0.913</code></pre>
+## [1] 0.715</code></pre>
 <p>Notice that the resulting output includes standard error estimates,
 as well as the p-values for two tests of heterogeneity: the omnibus
 test, and the conservative omnibus test.</p>
@@ -553,19 +553,19 @@ test, and the conservative omnibus test.</p>
 <div id="test-for-heterogeneity-across-multiple-times" class="section level2">
 <h2>Test for heterogeneity across multiple times</h2>
 <p>Lastly, the second main function in this package is
-<code>test.multiplet</code> which test for heterogeneity across multiple
-time points. The arguments are similar, except that the first argument
-is the vector of time points for testing:</p>
+<code>test.multiplet</code> which tests for heterogeneity across
+multiple time points. The arguments are similar, except that the first
+argument is the vector of time points for testing:</p>
 <pre class="r"><code>test.multiplet(t.mult = c(1, 1.25, 1.5), xone = example.data$x1,
     xzero = example.data$x0, deltaone = example.data$d1, deltazero = example.data$d0,
     sone = log(example.data$s1), szero = log(example.data$s0),
     wone = log(example.data$w1), wzero = log(example.data$w0),
     w.grd = log(seq(0.1, 0.9, length = 25)), landmark = 0.5)</code></pre>
 <pre><code>## $pval.multi
-## [1] 0.393
+## [1] 0.511
 ## 
 ## $pval.con.multi
-## [1] 0.675</code></pre>
+## [1] 0.77</code></pre>
 <p>Similar to the test at a single time point, this provides a p-value
 for two tests of heterogeneity: an omnibus test and a conservative
 omnibus test.</p>

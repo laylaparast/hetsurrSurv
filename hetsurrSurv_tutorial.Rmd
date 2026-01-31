@@ -77,7 +77,7 @@ Notice that the resulting output includes standard error estimates, as well as t
 
 ## Test for heterogeneity across multiple times
 
-Lastly, the second main function in this package is `test.multiplet` which test for heterogeneity across multiple time points. The arguments are similar, except that the first argument is the vector of time points for testing:
+Lastly, the second main function in this package is `test.multiplet` which tests for heterogeneity across multiple time points. The arguments are similar, except that the first argument is the vector of time points for testing:
 
 ```{r}
 test.multiplet(t.mult = c(1,1.25,1.5), xone=example.data$x1, xzero=example.data$x0,
